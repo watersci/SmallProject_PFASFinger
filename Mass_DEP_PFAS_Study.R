@@ -6,6 +6,7 @@ library(factoextra)
 library(leaflet)
 library(RColorBrewer)
 library(ggfortify)
+library(tibble)
 
 # Load the data
 water_data <- read_excel("DEP PFAS in Fish Database 09_12_23_final.xlsx", sheet = "W_Data")
@@ -68,7 +69,7 @@ mdl_lookup <- water_estimated %>%
 pfas_matrix <- pfas_matrix %>%
   mutate(across(
     everything(),
-    ~ ifelse(is.na(.), mdl_lookup[cur_column()] / 2, .)
+    ~ ifelse(is.nan(.), mdl_lookup[cur_column()] / 2, .)
   ))
 
 # Scale the data and perform clustering
